@@ -1,29 +1,52 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, } from '@nestjs/common';
 import { ShipmentLoadService } from './shipment-load.service';
-import { CreateInitialShipmentDto } from './dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { CreateShipmentDto } from './dto';
 
+
+
+@ApiTags('Shipment-load')
 @Controller('shipment-load')
 export class ShipmentLoadController {
-  constructor(private readonly shipmentLoadService: ShipmentLoadService) { }
+  constructor(
+    private readonly shipmentLoadService: ShipmentLoadService
+  ) { }
 
-  @Post('initial-load')
-  create(
-    @Body() createInitialShipmentDto: CreateInitialShipmentDto,
+  // @Auth()
+  @Post('create-shipment')
+  createLoad(
+    @Body() createShipmentDto: CreateShipmentDto,
   ) {
-    return this.shipmentLoadService.createInitialLoad(createInitialShipmentDto);
+    return this.shipmentLoadService.createLoad(createShipmentDto);
   }
 
-  @Get('all-shipments-initial')
-  findAllShipmentInitia() {
-    return this.shipmentLoadService.findAllShipmentsInitial();
+  @Post('update-shipment')
+  updateLoad(
+    @Body() createShipmentDto: CreateShipmentDto,
+  ) {
+    return this.shipmentLoadService.updateLoadShipment(createShipmentDto);
   }
 
+  @Get('shipment/:folio')
+  findShipment(@Param('folio') folio: string) {
+    return this.shipmentLoadService.findAllShipmentLoadByFolio(folio);
+  }
 
   @Get('all-shipments')
-  findAllShitment() {
-    return this.shipmentLoadService.findAllShipments();
+  findAllShipment(@Query() paginationDto: PaginationDto) {
+    return this.shipmentLoadService.findAllShipments(paginationDto);
   }
 
+  @Get('all-shipments-load')
+  findAllShipmentLoad(@Query() paginationDto: PaginationDto) {
+    return this.shipmentLoadService.findAllShipmentsLoad(paginationDto);
+  }
+
+  @Get('all-shipments-client/:client')
+  findAllShipmentByClient(@Param('client') client: string) {
+    return this.shipmentLoadService.findAllShipmentsByClient(client);
+  }
 
 
 }

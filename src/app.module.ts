@@ -2,6 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ShipmentLoadModule } from './shipment-load/shipment-load.module';
+import { SortingModule } from './sorting/sorting.module';
+import { AuthModule } from './auth/auth.module';
+import { SessionsModule } from './sessions/sessions.module';
+import { OperatorsModule } from './operators/operators.module';
+
 
 
 
@@ -18,9 +23,14 @@ import { ShipmentLoadModule } from './shipment-load/shipment-load.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
+      // logging: true,
     }),
 
     ShipmentLoadModule,
+    AuthModule,
+    SortingModule,
+    SessionsModule,
+    OperatorsModule
   ],
   controllers: [],
   providers: [],
